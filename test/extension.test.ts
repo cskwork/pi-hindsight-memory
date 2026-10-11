@@ -25,6 +25,7 @@ function fakePi() {
 
 async function load(env: Record<string, string>) {
   Object.assign(process.env, env);
+  delete (globalThis as any)[Symbol.for("pi-hindsight-memory.loaded")];
   return (await import(`../extensions/hindsight.ts?${Math.random()}`)).default;
 }
 
@@ -51,4 +52,14 @@ test("warns at session start when Hindsight is not installed", async () => {
   const notes: string[] = [];
   pi.handlers.session_start[0]({}, { ui: { notify: (m: string) => notes.push(m) } });
   assert.match(notes[0], /hindsight-agent-setup/);
+});
+
+test("loads once when installed from two sources", async () => {
+  const { root, agentDir } = fixture(false);
+  const ext = await load({ HINDSIGHT_CODING_AGENTS_DIR: root, PI_CODING_AGENT_DIR: agentDir });
+  const again = (await import(`../extensions/hindsight.ts?${Math.random()}`)).default;
+  const pi = fakePi();
+  await ext(pi);
+  await again(pi);
+  assert.equal(pi.loaded, 1);
 });

@@ -15,13 +15,15 @@ This package is a thin loader. The memory behaviour is Hindsight's official Pi a
 
    ```bash
    pi install npm:pi-hindsight-memory
+   # or straight from GitHub
+   pi install git:github.com/cskwork/pi-hindsight-memory
    ```
 
 Start a new Pi session. Without a Hindsight install, the extension loads nothing and shows a warning at session start.
 
 ## How it works
 
-The extension imports `~/.hindsight/coding-agents/dist/pi.js` (override with `HINDSIGHT_CODING_AGENTS_DIR`) and hands it Pi's extension API. If you already registered that file directly with `npx @vectorize-io/hindsight-coding-agents install pi`, the extension stands down so the tools are not registered twice.
+The extension imports `~/.hindsight/coding-agents/dist/pi.js` (override with `HINDSIGHT_CODING_AGENTS_DIR`) and hands it Pi's extension API. If you already registered that file directly with `npx @vectorize-io/hindsight-coding-agents install pi`, the extension stands down so the tools are not registered twice. It also loads only once when installed from both npm and git.
 
 Memory settings (server URL, bank, per-repo opt-in) come from `~/.hindsight/coding-agent.json`, the same file the other agents read. Pi events appear as `"harness":"pi"` in `~/.hindsight/coding-agents-logs/diag.jsonl`: look for `inject_ok` and `retain_ok` to confirm recall and saving.
 

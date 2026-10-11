@@ -10,6 +10,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 const root = process.env.HINDSIGHT_CODING_AGENTS_DIR || join(homedir(), ".hindsight", "coding-agents");
 const adapter = join(root, "dist", "pi.js");
 const SETUP_URL = "https://github.com/cskwork/hindsight-agent-setup";
+const LOADED = Symbol.for("pi-hindsight-memory.loaded");
 
 // `npx @vectorize-io/hindsight-coding-agents install pi` registers dist/pi.js in settings.json
 // directly; loading it a second time would register every hindsight_* tool twice.
@@ -31,6 +32,10 @@ export default async function (pi: ExtensionAPI) {
     return;
   }
   if (adapterAlreadyRegistered()) return;
+  // Installed from both npm and git (Pi treats those as two packages): load once.
+  const g = globalThis as { [LOADED]?: boolean };
+  if (g[LOADED]) return;
+  g[LOADED] = true;
 
   const { default: hindsight } = await import(pathToFileURL(adapter).href);
   hindsight(pi);
