@@ -10,8 +10,6 @@ function fixture(registeredInSettings: boolean) {
   const dir = mkdtempSync(join(tmpdir(), "pi-hindsight-"));
   const root = join(dir, "coding-agents");
   mkdirSync(join(root, "dist"), { recursive: true });
-  mkdirSync(join(root, "skill"));
-  writeFileSync(join(root, "skill", "SKILL.md"), "---\nname: x\ndescription: x\n---\n");
   writeFileSync(join(root, "dist", "pi.js"), "export default (pi) => { pi.loaded = (pi.loaded ?? 0) + 1; };\n");
   const agentDir = join(dir, "agent");
   mkdirSync(agentDir);
@@ -30,13 +28,12 @@ async function load(env: Record<string, string>) {
   return (await import(`../extensions/hindsight.ts?${Math.random()}`)).default;
 }
 
-test("loads the adapter and adds its skill", async () => {
+test("loads the adapter", async () => {
   const { root, agentDir } = fixture(false);
   const ext = await load({ HINDSIGHT_CODING_AGENTS_DIR: root, PI_CODING_AGENT_DIR: agentDir });
   const pi = fakePi();
   await ext(pi);
   assert.equal(pi.loaded, 1);
-  assert.deepEqual(pi.handlers.resources_discover[0](), { skillPaths: [join(root, "skill")] });
 });
 
 test("skips when the official installer already registered dist/pi.js", async () => {

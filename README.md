@@ -4,7 +4,7 @@
 
 - **Recall before each turn.** Relevant past decisions, conventions, and the repository's knowledge pages are added to the system prompt.
 - **Save after each turn.** The conversation is sent to Hindsight, which keeps what is worth remembering.
-- **Tools.** `hindsight_search_knowledge_pages`, `hindsight_reflect`, `hindsight_ingest_document`, and the rest of the `hindsight_*` tools, plus the `hindsight-coding-agent` skill.
+- **Tools.** `hindsight_search_knowledge_pages`, `hindsight_reflect`, `hindsight_ingest_document`, and the rest of the `hindsight_*` tools, plus the `hindsight-coding-agent` skill, which the adapter installs into `~/.pi/agent/skills`.
 
 This package is a thin loader. The memory behaviour is Hindsight's official Pi adapter (`dist/pi.js` in [`@vectorize-io/hindsight-coding-agents`](https://www.npmjs.com/package/@vectorize-io/hindsight-coding-agents)), so Pi stays on the same adapter version as your other agents.
 
