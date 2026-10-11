@@ -1,0 +1,35 @@
+{
+  "name": "pi-hindsight-memory",
+  "version": "0.1.0",
+  "description": "Hindsight long-term memory for Pi: recalls past decisions before each turn, saves the conversation after it, and shares one memory with Claude Code, Codex, and Hermes.",
+  "keywords": [
+    "pi-package",
+    "hindsight",
+    "memory",
+    "coding-agent"
+  ],
+  "license": "MIT",
+  "author": "cskwork",
+  "homepage": "https://github.com/cskwork/pi-hindsight-memory#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cskwork/pi-hindsight-memory.git"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node --test --experimental-strip-types test/extension.test.ts"
+  },
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/hindsight.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
